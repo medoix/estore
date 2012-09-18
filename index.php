@@ -9,7 +9,7 @@ ini_set('display_errors', '1');
 include "include/mysql.php"; 
 $dynamicList = "";
 $sql = mysql_query("SELECT * FROM products ORDER BY date_added DESC LIMIT 6");
-$productCount = mysql_num_rows($sql); // count the output amount
+$productCount = mysql_num_rows($sql) or die($myQuery."<br/><br/>".mysql_error()); // count the output amount
 if ($productCount > 0) {
   $i=0;
 	while($row = mysql_fetch_array($sql)){ 
