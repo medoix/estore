@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Store Home Page</title>
+<title><?php if($page_title){ echo $page_title . " | "; } ?>SHIVV Electronics</title>
 <link rel="stylesheet" href="media/css/style.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
-  <script type="text/javascript" charset="utf-8" src="media/js/jquery-1.5.1.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="media/js/ecart.js"></script>
   <script type="text/javascript" charset="utf-8" src="media/js/jquery.fancybox-1.3.4.pack.js"></script>
 </head>
@@ -20,7 +20,7 @@
 				<br />
 				-->
 				<form action="cart.php" method="get" accept-charset="utf-8">
-					<input type="submit" value="Trolley (0 items)" id="trolleyButton" class="trolleyButton">
+					<input type="submit" value="Trolley (<?php echo $cartCount; ?> items)" id="trolleyButton" class="trolleyButton">
 				</form>
 			</div>
 			<a href="/"><img src="media/images/logo.png" alt="Logo" border="0" id="logo"></a>
