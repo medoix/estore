@@ -1,10 +1,6 @@
 <?php 
-session_start(); // Start session first thing in script
-// Script Error Reporting
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
 // Connect to the MySQL database  
-include "include/mysql.php"; 
+include "include/common.php"; 
 ?>
 <?php 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +64,7 @@ if (isset($_POST['item_to_adjust']) && $_POST['item_to_adjust'] != "") {
 				  } // close if condition
 		      } // close while loop
 	} // close foreach loop
+	header("location: cart.php");
 }
 ?>
 <?php 
@@ -114,7 +111,7 @@ if (!isset($_SESSION["cart_array"]) || count($_SESSION["cart_array"]) < 1) {
 		$pricetotal = $price * $each_item['quantity'];
 		$cartTotal = $pricetotal + $cartTotal;
 		setlocale(LC_MONETARY, "en_US");
-        $pricetotal = money_format("%10.2n", $pricetotal);
+        $pricetotal = money_format("%i", $pricetotal);
 		// Dynamic Checkout Btn Assembly
 		$x = $i + 1;
 		$pp_checkout_btn .= '<input type="hidden" name="item_name_' . $x . '" value="' . $product_name . '">
@@ -124,17 +121,21 @@ if (!isset($_SESSION["cart_array"]) || count($_SESSION["cart_array"]) < 1) {
 		$product_id_array .= "$item_id-".$each_item['quantity'].","; 
 		// Dynamic table row assembly
 		$cartOutput .= "<tr>";
-		$cartOutput .= '<td width="100%"><a href="product.php?id=' . $item_id . '">' . $product_name . '</a></td>';
+		$cartOutput .= '<td><a href="product.php?id=' . $item_id . '">' . $product_name . '</a></td>';
 		$cartOutput .= '<td><form action="cart.php" method="post">
-		<input name="quantity" type="text" value="' . $each_item['quantity'] . '" size="1" maxlength="2" />
-		<input name="adjustBtn' . $item_id . '" type="submit" value="change" />
+		<input name="quantity" id="quantity' . $item_id . '" type="text" value="' . $each_item['quantity'] . '" size="1" maxlength="2" />
+		<input name="adjustBtn" id="adjustBtn' . $item_id . '" type="submit" value="change" hidden="true" />
 		<input name="item_to_adjust" type="hidden" value="' . $item_id . '" />
 		</form></td>';
 		$cartOutput .= '<td><span style="color: #0a0;">in stock</span></td>';
 		//$cartOutput .= '<td>' . $details . '</td>';
 		//$cartOutput .= '<td align="right">$' . $price . '</td>';
 		//$cartOutput .= '<td>' . $each_item['quantity'] . '</td>';
-		$cartOutput .= '<td align="right">$' . $pricetotal . '</td>';
+		$cartOutput .= '<td align="right">$' . $pricetotal . '';
+		if($each_item['quantity'] > 1) {
+			$cartOutput .= '<div style="color: #999; font-size: 80%;">($' . $price . ' each)</div>';
+		}
+		$cartOutput .= '</td>';
 		$cartOutput .= '<td align="center"><form action="cart.php" method="post"><input name="deleteBtn' . $item_id . '" type="submit" value="X" /><input name="index_to_remove" type="hidden" value="' . $i . '" /></form></td>';
 		$cartOutput .= '</tr>';
 		$i++; 
@@ -154,6 +155,8 @@ if (!isset($_SESSION["cart_array"]) || count($_SESSION["cart_array"]) < 1) {
 	<input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - its fast, free and secure!">
 	</form>';
 }
+$page_title = "Cart";
+$current_page = "cart";
 ?>
 <?php include_once("tpl/store_header.tpl");?>
 <?php include_once("tpl/store_menu.tpl");?>
@@ -162,7 +165,7 @@ if (!isset($_SESSION["cart_array"]) || count($_SESSION["cart_array"]) < 1) {
 <h2>Your Shopping Trolley</h2>
 
 <div class="pageContent">
-	<form action="cart.php" method="post" accept-charset="utf-8">
+	<!--<form action="cart.php" method="post" accept-charset="utf-8">-->
 		<table border="0" cellspacing="0" cellpadding="5" width="100%" class="trolleyTable">
 			<thead>
 				<tr>
@@ -190,7 +193,7 @@ if (!isset($_SESSION["cart_array"]) || count($_SESSION["cart_array"]) < 1) {
 		<!--
 		<a href="cart.php?cmd=emptycart">Click Here to Empty Your Shopping Cart</a>
 		-->
-	</form>
+	<!--</form>-->
 </div>
 		</div>
 	</div>
