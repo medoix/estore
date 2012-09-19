@@ -1,13 +1,10 @@
 <?php 
-// Script Error Reporting
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+// Connect to the MySQL database  
+include "include/common.php"; 
 ?>
 <?php 
 // Check to see the URL variable is set and that it exists in the database
 if (isset($_GET['id'])) {
-	// Connect to the MySQL database  
-    include "include/mysql.php"; 
 	$id = preg_replace('#[^0-9]#i', '', $_GET['id']); 
 	// Use this var to check to see if this ID exists, if yes then get the product 
 	// details, if no then exit this script and give message why
@@ -34,34 +31,13 @@ if (isset($_GET['id'])) {
 	exit();
 }
 mysql_close();
+$page_title = $product_name;
+$current_page = "product";
 ?>
 <?php include_once("tpl/store_header.tpl");?>
 <?php include_once("tpl/store_menu.tpl");?>
 <div id="content">
   <h2><?php echo $product_name; ?></h2>
-
-<!--
-  <table width="100%" border="0" cellspacing="0" cellpadding="15">
-  <tr>
-    <td width="19%" valign="top"><img src="inventory_images/<?php echo $id; ?>.jpg" width="142" height="188" alt="<?php echo $product_name; ?>" /><br />
-      <a href="inventory_images/<?php echo $id; ?>.jpg">View Full Size Image</a></td>
-    <td width="81%" valign="top"><h3><?php echo $product_name; ?></h3>
-      <p><?php echo "$".$price; ?><br />
-        <br />
-        <?php echo "$subcategory $category"; ?> <br />
-<br />
-        <?php echo $details; ?>
-<br />
-        </p>
-      <form id="form1" name="form1" method="post" action="cart.php">
-        <input type="hidden" name="pid" id="pid" value="<?php echo $id; ?>" />
-        <input type="submit" name="button" id="button" value="Add to Shopping Cart" />
-      </form>
-      </td>
-    </tr>
-</table>
-  </div>
--->
 <div class="productInfo">
   <div class="productImage">
     
