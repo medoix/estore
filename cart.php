@@ -80,6 +80,7 @@ if (isset($_POST['index_to_remove']) && $_POST['index_to_remove'] != "") {
 		unset($_SESSION["cart_array"]["$key_to_remove"]);
 		sort($_SESSION["cart_array"]);
 	}
+	header("location: cart.php");
 }
 ?>
 <?php 
