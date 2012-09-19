@@ -1,4 +1,12 @@
 $(document).ready( function() {
+
+	$('[name="quantity"]').change(function(){
+		// "#adjustBtn" = id of field or use "[name='adjustBtn']" for name of field.
+       	//$("#adjustBtn").closest("form").submit();
+       	$(this).closest("form").submit();
+       	//$('#autoSubmit').submit();
+    });
+
 	$( '.subtleDropdown' ).each( function() {
 		var container = $('<span class="subtleDropdown"></span>');
 		var formElement = $('<input type="hidden">').attr( 'name', $(this).attr( 'name' ) ).appendTo( container );
@@ -45,6 +53,7 @@ $(document).ready( function() {
 		'transitionIn'	:	'elastic',
 		'transitionOut'	:	'fade',
 	} );
+
 } );
 
 function doAddCart( form ) {
@@ -61,7 +70,7 @@ function doAddCart( form ) {
 	
 	buyButton.after( overlaySpinner );
 	
-	$.ajax( 'cart', {
+	$.ajax( 'cart_add', {
 		type: 'POST',
 		dataType: 'text',
 		data: {
@@ -77,7 +86,7 @@ function doAddCart( form ) {
 		success: function( data ) {
 			console.log( "success!" );
 			console.log( data );
-			
+
 			buyButton.val( 'More' );
 			buyButton.addClass( 'noRight' );
 			$(form).find('input').removeAttr( 'disabled' );
@@ -90,7 +99,7 @@ function doAddCart( form ) {
 			}
 			overlaySpinner.replaceWith( '' );
 			
-			$('#trolleyButton').val( 'Trolley ('+data['trolleyCount']+' items)' ).show( );
+			$('#trolleyButton').val( 'Trolley ('+data+' items)' ).show( );
 		}
 	} );
 	
