@@ -1,12 +1,9 @@
 <?php 
-// Script Error Reporting
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+// Connect to the MySQL database  
+include "include/common.php"; 
 ?>
 <?php 
 // Run a select query to get my letest 6 items
-// Connect to the MySQL database  
-include "include/mysql.php"; 
 $dynamicList = "";
 $sql = mysql_query("SELECT * FROM products ORDER BY date_added DESC LIMIT 6");
 $productCount = mysql_num_rows($sql) or die($myQuery."<br/><br/>".mysql_error()); // count the output amount
@@ -49,6 +46,9 @@ if ($productCount > 0) {
 }
 
 mysql_close();
+
+$page_title = "Home";  
+$current_page = "home";
 ?>
 <?php include_once("tpl/store_header.tpl");?>
 <?php include_once("tpl/store_menu.tpl");?>
